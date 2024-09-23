@@ -1,33 +1,35 @@
+import { useTodo } from "@/contexs";
 import { useState } from "react";
 
-const TodoForm = () => {
-  const [value, setValue] = useState("");
-  const handelSubmit = (e) => {
+function TodoForm() {
+  const [todo, setTodo] = useState("");
+  const { addTodo } = useTodo();
+  const fromHandel = (e) => {
     e.preventDefault();
-    console.log(value);
-    setValue("");
+
+    if (!todo) return;
+
+    addTodo({ todoDesc: todo, completed: false });
+    setTodo("");
   };
+
   return (
-    <div className="">
-      <form onSubmit={handelSubmit}>
-        <div className="bg-zinc-300 rounded-lg w-[500px] h-10 flex justify-between">
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder="Add Your todos..."
-            className="bg-transparent outline-none px-4 py-2 text-zinc-800 placeholder:text-[#464444] placeholder:text-md"
-          />
-          <button
-            type="submit"
-            className="text-white bg-green-600 rounded-e-lg  px-4 py-1"
-          >
-            Add
-          </button>
-        </div>
-      </form>
-    </div>
+    <form className="flex" onSubmit={fromHandel}>
+      <input
+        type="text"
+        value={todo}
+        onChange={(e) => setTodo(e.target.value)}
+        placeholder="Write Todo..."
+        className="w-full border border-black/10 rounded-l-lg px-3 outline-none duration-150 bg-white/20 py-1.5"
+      />
+      <button
+        type="submit"
+        className="rounded-r-lg px-3 py-1 bg-green-600 text-white shrink-0"
+      >
+        Add
+      </button>
+    </form>
   );
-};
+}
 
 export default TodoForm;
